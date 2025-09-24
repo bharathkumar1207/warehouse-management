@@ -7,8 +7,8 @@ import { client } from "../db.config.js";
  */
 export async function createUserGroupTable():Promise<void>{
     (await client).query(`create table usergroup 
-                          (usergroup_id int primary key,
-                           usergroup_name varchar(30) ,
+                          (usergroup_id int primary key ,
+                           usergroup_name varchar(30) unique,
                            created_on TEXT)`)
 }
 
@@ -20,10 +20,10 @@ export async function createUserGroupTable():Promise<void>{
 export async function createUserTable():Promise<void>{
     (await client).query(`create table users 
                           (user_id int primary key, 
-                           username varchar(30),
+                           username varchar(30) unique,
                            address TEXT,
                            mobile_no varchar(15),
-                           usergroup_id int,
+                           usergroup_id int null,
                            foreign key(usergroup_id) references usergroup(usergroup_id) on delete  set null)`)
 }
 
@@ -35,7 +35,7 @@ export async function createUserTable():Promise<void>{
 export async function createProductTable():Promise<void>{
     (await client).query(`create table product 
                           (product_id int primary key,
-                           product_name varchar(30),
+                           product_name varchar(30) unique,
                            price int)`)
 }
 
@@ -48,7 +48,7 @@ export async function createProductTable():Promise<void>{
 export async function createVendorTable():Promise<void>{
     (await client).query(`create table vendor 
                           (vendor_id int primary key, 
-                           vendor_name varchar(30),
+                           vendor_name varchar(30) unique,
                            mobile_no varchar(15),
                            address TEXT,
                            POC varchar(30))`)
@@ -63,7 +63,7 @@ export async function createVendorTable():Promise<void>{
 export async function createCustomerTable():Promise<void>{
     (await client).query(`create table customer 
                           (customer_id int primary key, 
-                           customer_name varchar(30),
+                           customer_name varchar(30) unique,
                            mobile_no varchar(15),
                            address TEXT,
                            POC varchar(30))`)
@@ -77,7 +77,7 @@ export async function createCustomerTable():Promise<void>{
 export async function createIncomingStockTable():Promise<void>{
     (await client).query(`create table incoming_stock
                           (stock_id int primary key,
-                           vendor_id int, foreign key(vendor_id) references vendor(vendor_id) on delete set null,
+                           vendor_id int null, foreign key(vendor_id) references vendor(vendor_id) on delete set null,
                            created_at Text,
                            total_amount int,
                            payment_status boolean,
@@ -94,7 +94,7 @@ export async function createIncomingStockTable():Promise<void>{
 export async function createIncomingStockItems():Promise<void>{
     (await client).query(`create table incoming_stock_items 
                           (stock_id int primary key,
-                           product_id int, foreign key(product_id) references product(product_id) on delete set null,
+                           product_id int null, foreign key(product_id) references product(product_id) on delete set null,
                            quantity int,
                            unit_price int,
                            net_price int GENERATED ALWAYS AS (quantity * unit_price) STORED)`)
@@ -108,7 +108,7 @@ export async function createIncomingStockItems():Promise<void>{
 export async function createOutgoingStockTable():Promise<void>{
     (await client).query(`create table outgoing_stock
                           (stock_id int primary key,
-                           customer_id int, foreign key(customer_id) references customer(customer_id) on delete set null,
+                           customer_id int null, foreign key(customer_id) references customer(customer_id) on delete set null,
                            total_amount int,
                            created_at Text,
                            payment_status boolean,
@@ -124,7 +124,7 @@ export async function createOutgoingStockTable():Promise<void>{
 export async function createOutgoingStockItems():Promise<void>{
     (await client).query(`create table outgoing_stock_items 
                           (stock_id int primary key,
-                           product_id int, foreign key(product_id) references product(product_id) on delete set null,
+                           product_id int null, foreign key(product_id) references product(product_id) on delete set null,
                            quantity int,
                            unit_price int,
                            net_price int GENERATED ALWAYS AS (quantity * unit_price) STORED)`)
