@@ -18,4 +18,4 @@ const dbConfig =({
 })
 
 export const postgresPool = new Pool(dbConfig)
-export const client = postgresPool.connect() 
+export const client = await postgresPool.connect() 

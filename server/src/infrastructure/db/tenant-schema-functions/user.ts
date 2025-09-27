@@ -1,4 +1,4 @@
-import { client } from "../../../../db/db.config.js";
+import { client } from "../../../../../db/db.config.js";
 import { QueryResult } from "pg";
 
 
