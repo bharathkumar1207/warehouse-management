@@ -1,5 +1,5 @@
 import { postgresPool } from "../../../../../db/db.config.js";
-import { createTenantSchema, deleteTenantSchema } from "../../../../../db/schemas/tenant-schema.js";
+import { createTenantSchema } from "../../../../../db/schemas/tenant-schema.js";
 import format from 'pg-format'
 
 /**
@@ -50,8 +50,10 @@ export async function createTenant({
         await client.query(query, values)
         await createTenantSchema({tenantName:tenantName,client:client})
         await client.query(`COMMIT`)
+           
         
         return `Tenant '${tenantName}' created successfully with ID ${newTenantId}`;
+ 
     } 
     catch (e) {
         await client.query(`ROLLBACK`)
