@@ -1,10 +1,10 @@
-import { postgresPool ,client } from "../db.config.js";
+import { postgresPool } from "../db.config.js";
 
 /**
  * creates admin table in database
  * @returns table created or not
  */
-export async function createAdminTable():Promise<string>{
+export async function createAdminTable({client}:{client:any}):Promise<string>{
     try{
         await client.query(`create table admin(
                             admin_name varchar(30) primary key,
@@ -12,7 +12,7 @@ export async function createAdminTable():Promise<string>{
         return "Admin table created successfully"
     }
     catch(e){
-        return String(e)
+        throw e
     }
     
 }
@@ -21,7 +21,7 @@ export async function createAdminTable():Promise<string>{
  * creates tenant table in database
  * @returns table created or not
  */
-export async function createTenantTable():Promise<string>{
+export async function createTenantTable({client}:{client:any}):Promise<string>{
     try{
         await client.query(`create table tenant(
                             tenant_id int primary key,
@@ -31,7 +31,7 @@ export async function createTenantTable():Promise<string>{
         return "Tenant table created successfully"
     }
     catch(e){
-        return String(e)
+        throw e
     }
     
 }
@@ -41,15 +41,15 @@ export async function createAdminSchema():Promise<string>{
     try{
         await client.query(`BEGIN`)
 
-        await createAdminTable()
-        await createTenantTable()
+        await createAdminTable({client:client})
+        await createTenantTable({client:client})
 
         await client.query(`COMMIT`)
         return `admin schema created successfully`
     }
     catch(e){
         await client.query(`ROLLBACK`)
-        return String(e)
+        throw e
     }
     finally{
         client.release()

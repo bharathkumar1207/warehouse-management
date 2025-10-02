@@ -9,7 +9,7 @@ const password:string = process.env.DB_PASSWORD ? process.env.DB_PASSWORD : ''
 const port:number = process.env.DB_PORT ? Number(process.env.DB_PORT) : 5432
 const db:string = process.env.DATABASE ? process.env.DATABASE : 'postgres'
 
-const dbConfig =({
+const dbConfig = ({
     host:hostName,
     user:userName,
     password:password,
