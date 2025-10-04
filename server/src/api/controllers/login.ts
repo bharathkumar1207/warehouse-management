@@ -16,7 +16,7 @@ const JWT_SECRET:string = String(process.env.JWT_SECRET)
 export async function adminLogin( req:Request, res:Response ):Promise<void>{
     const client = await postgresPool.connect()
     const data = req.body
-
+    // console.log(data)
     if(!data.adminId || !data.password ){
         res.status(400).json({ message : 'Username and password  are required'})
         return
@@ -67,6 +67,7 @@ export async function adminLogin( req:Request, res:Response ):Promise<void>{
 export async function tenantLogin( req:Request, res:Response ):Promise<void>{
     const client = await postgresPool.connect()
     const data = req.body
+    // console.log(data)
 
     if(!data.tenantName || !data.username || !data.password ){
         res.status(400).json({ message : 'Username and password and tenant Name are required'})
