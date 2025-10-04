@@ -3,14 +3,13 @@ import os from 'os'
 
 const PORT :number = Number(process.env.SERVER_PORT)
 
-const getLocalIP = () => {
-    const interfaces = os.networkInterfaces()
+const getLocalIP = (): string => {
+    const interfaces = os.networkInterfaces();
 
-    const wifiInterface = interfaces["Wi-fi"]
-    if(wifiInterface){
-        for(const iface  of wifiInterface){
-            if(iface.family === "IPv4" && !iface.internal){
-                return iface.address
+    for (const name of Object.keys(interfaces)) {
+        for (const iface of interfaces[name] || []) {
+            if (iface.family === 'IPv4' && !iface.internal) {
+                return iface.address;
             }
         }
     }
