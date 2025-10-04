@@ -1,14 +1,9 @@
 import { postgresPool } from "../../../../db/db.config.ts"
 import { Request, Response} from "express"
-import bcrypt from "bcrypt"
-import jwt from "jsonwebtoken"
 import format from "pg-format"
-import { getCurrentTime } from "../../shared/time.ts"
 import { createAdminUser } from "../../infrastructure/db/admin-schema-functions/admin-table.ts"
 import { passwordHashing, passwordValidator } from "../../shared/password.ts"
 import { createTenantAdminUser } from "../../infrastructure/db/tenant-schema-functions/tenant-admin-table .ts"
-
-const JWT_SECRET:string = String(process.env.JWT_SECRET)
 
 /**
  * admin sign up
